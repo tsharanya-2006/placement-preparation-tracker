@@ -30,17 +30,17 @@ def mark_goal_completed():
     print("Goal Marked as Completed!")
 def delete_dsa_problem():
     problem = input("Enter DSA Problem Name to Delete: ")
-
     if problem in dsa_problems:
         dsa_problems.remove(problem)
+        save_data()
         print(f"'{problem}' deleted successfully!")
     else:
         print("Problem not found!")
 def delete_project():
     project = input("Enter Project Name to Delete: ")
-
     if project in projects:
         projects.remove(project)
+        save_data()
         print(f"'{project}' deleted successfully!")
     else:
         print("Project not found!")
@@ -55,14 +55,12 @@ def add_dsa_problem():
 def add_project():
     project = input("Enter Project Name: ")
     projects.append(project)
-
-    with open("placement_data.txt", "a") as file:
-        file.write("Project: " + project + "\n")
+    save_data()
 
     print(f"'{project}' added successfully!")
 def view_saved_data():
     print("\n===== SAVED DATA =====")
-
+    save_data()
     with open("placement_data.txt", "r") as file:
         print(file.read())
 def search_dsa_problem():
@@ -103,14 +101,22 @@ def edit_project():
 
     if old_project in projects:
         new_project = input("Enter the New Project Name: ")
-
         index = projects.index(old_project)
         projects[index] = new_project
-
+        print(projects)
+        save_data()
         print(f"'{old_project}' updated to '{new_project}' successfully!")
 
     else:
         print("Project Not Found!")
+def save_data():
+    with open("placement_data.txt", "w") as file:
+
+        for problem in dsa_problems:
+            file.write("DSA: " + problem + "\n")
+
+        for project in projects:
+            file.write("Project: " + project + "\n")
 while True:
     print("\n===== WELCOME TO PLACEMENT TRACKER =====")
     print("1. Add DSA Problem")
